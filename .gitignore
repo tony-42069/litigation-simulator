@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.egg-info/
+.env
+.env.*
+*.env
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+.cache/
+.next/
+out/
+
+# Docker
+*.pid
+*.sock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+.history/
+
+# Database
+*.db
+*.sql
+*.sqlite
+
+# Models and Data
+models/
+data/
+*.h5
+*.pt
+*.pkl
+*.joblib
+
+# Frontend build
+frontend/build/
+frontend/dist/
+
+# Coverage
+coverage/
+.coverage
+*.cover
+*.py,cover
+
+# Misc
+*.bak
+*.swp
+*.tmp
+*.orig
