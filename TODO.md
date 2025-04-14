@@ -16,7 +16,7 @@
 
 ## 3. Database & Data Models
 - [x] Implement all tables from database schema in PostgreSQL
-- [ ] Set up ORM models (e.g., SQLAlchemy) for backend services
+- [x] Set up ORM models (e.g., SQLAlchemy) for backend services
 - [ ] Write migration scripts for schema changes
 - [x] Seed database with initial data from Court Listener
 
