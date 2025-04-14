@@ -64,3 +64,6 @@ coverage/
 *.swp
 *.tmp
 *.orig
+
+# Documentation
+DOCS/

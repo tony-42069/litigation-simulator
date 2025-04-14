@@ -12,6 +12,7 @@ import json
 import time
 import httpx
 import logging
+import hashlib
 from typing import Dict, List, Optional, Union, Any
 from datetime import datetime
 from dotenv import load_dotenv
@@ -28,10 +29,11 @@ logger = logging.getLogger(__name__)
 
 class CourtListenerAPI:
     """
-    A client for interacting with the Court Listener API.
+    A client for interacting with the Court Listener API, with local file-based caching.
     """
     
     BASE_URL = "https://www.courtlistener.com/api/rest/v4"
+    CACHE_DIR = "./cl_cache"
     
     def __init__(self, api_token: Optional[str] = None):
         """
@@ -51,6 +53,7 @@ class CourtListenerAPI:
             },
             timeout=30.0
         )
+        os.makedirs(self.CACHE_DIR, exist_ok=True)
         logger.info("CourtListenerAPI client initialized")
     
     async def __aenter__(self):
@@ -64,6 +67,22 @@ class CourtListenerAPI:
         await self.client.aclose()
         logger.info("CourtListenerAPI client closed")
     
+    def _cache_path(self, key: str) -> str:
+        h = hashlib.sha256(key.encode()).hexdigest()
+        return os.path.join(self.CACHE_DIR, f"{h}.json")
+    
+    def _load_cache(self, key: str):
+        path = self._cache_path(key)
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return None
+    
+    def _save_cache(self, key: str, data):
+        path = self._cache_path(key)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f)
+    
     async def _make_request(
         self, 
         method: str, 
@@ -73,19 +92,14 @@ class CourtListenerAPI:
         retry_count: int = 3
     ) -> Dict[str, Any]:
         """
-        Make a request to the Court Listener API with retry logic.
-        
-        Args:
-            method: HTTP method (GET, POST, etc.)
-            endpoint: API endpoint (without base URL)
-            params: Query parameters
-            data: Request body for POST/PUT
-            retry_count: Number of retries on failure
-            
-        Returns:
-            Parsed JSON response
+        Make a request to the Court Listener API with retry logic and local file cache.
         """
         url = f"{self.BASE_URL}/{endpoint.lstrip('/')}"
+        cache_key = f"{method}:{url}:{json.dumps(params, sort_keys=True) if params else ''}"
+        cached = self._load_cache(cache_key)
+        if cached is not None:
+            logger.info(f"Loaded from cache: {url} {params}")
+            return cached
         
         for attempt in range(retry_count):
             try:
@@ -97,38 +111,31 @@ class CourtListenerAPI:
                 )
                 
                 response.raise_for_status()
-                return response.json()
+                result = response.json()
+                self._save_cache(cache_key, result)
+                return result
                 
             except httpx.HTTPStatusError as e:
                 # Handle rate limiting
                 if e.response.status_code == 429:
-                    # Extract retry-after header or use exponential backoff
                     retry_after = int(e.response.headers.get("Retry-After", 2 ** attempt))
                     logger.warning(f"Rate limited. Retrying after {retry_after} seconds. Attempt {attempt+1}/{retry_count}")
-                    
-                    # Wait before retrying
                     await asyncio.sleep(retry_after)
                     continue
-                    
-                # Handle unauthorized
                 if e.response.status_code == 401:
                     logger.error("Unauthorized. Check your API token.")
                     raise
-                
                 if attempt < retry_count - 1:
                     logger.warning(f"Request failed with {e}. Retrying {attempt+1}/{retry_count}")
-                    await asyncio.sleep(2 ** attempt)  # Exponential backoff
+                    await asyncio.sleep(2 ** attempt)
                     continue
-                    
                 logger.error(f"Request failed after {retry_count} attempts: {e}")
                 raise
-                
             except httpx.RequestError as e:
                 if attempt < retry_count - 1:
                     logger.warning(f"Request error: {e}. Retrying {attempt+1}/{retry_count}")
-                    await asyncio.sleep(2 ** attempt)  # Exponential backoff
+                    await asyncio.sleep(2 ** attempt)
                     continue
-                    
                 logger.error(f"Request error after {retry_count} attempts: {e}")
                 raise
     

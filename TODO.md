@@ -1,28 +1,28 @@
 # Litigation Simulator – Master TODO List
 
 ## 1. Project Setup & Infrastructure
-- [ ] Finalize `.env` and `.gitignore` files
-- [ ] Set up local development environment (Python, Node.js, Docker, PostgreSQL, Redis)
+- [x] Finalize `.env` and `.gitignore` files
+- [x] Set up local development environment (Python, Node.js, Docker, PostgreSQL, Redis)
 - [ ] Configure Docker Compose for all services (backend, frontend, db, redis)
-- [ ] Set up initial database using provided schema and run migrations
-- [ ] Connect local repo to GitHub ([repo link](https://github.com/tony-42069/litigation-simulator.git))
+- [x] Set up initial database using provided schema and run migrations
+- [x] Connect local repo to GitHub ([repo link](https://github.com/tony-42069/litigation-simulator.git))
 - [ ] Set up CI/CD pipeline (optional, for later automation)
 
 ## 2. Court Listener API Integration
-- [ ] Implement and test Court Listener API wrapper (judges, opinions, oral arguments, dockets)
-- [ ] Add robust error handling, rate limiting, and retry logic
-- [ ] Create scripts for initial and incremental data import
-- [ ] Implement local caching for API data
+- [x] Implement and test Court Listener API wrapper (judges, opinions, oral arguments, dockets)
+- [x] Add robust error handling, rate limiting, and retry logic
+- [x] Create scripts for initial and incremental data import
+- [x] Implement local caching for API data
 
 ## 3. Database & Data Models
-- [ ] Implement all tables from database schema in PostgreSQL
+- [x] Implement all tables from database schema in PostgreSQL
 - [ ] Set up ORM models (e.g., SQLAlchemy) for backend services
 - [ ] Write migration scripts for schema changes
-- [ ] Seed database with initial data from Court Listener
+- [x] Seed database with initial data from Court Listener
 
 ## 4. Judge Analysis System
-- [ ] Implement judge profile analysis (writing style, topic modeling, ruling patterns)
-- [ ] Build and train ML models for judge analytics
+- [~] Implement judge profile analysis (writing style, topic modeling, ruling patterns)  <!-- Scaffolded, pending Spacy -->
+- [~] Build and train ML models for judge analytics  <!-- Scaffolded, pending Spacy -->
 - [ ] Store analysis results in JudgeAnalytics and JudgePatterns tables
 - [ ] Expose judge analytics via API endpoints
 - [ ] Integrate with frontend for judge search and profile display
@@ -85,13 +85,13 @@
 - [ ] Plan outreach and customer acquisition steps
 
 ## 13. Documentation
-- [ ] Update and maintain technical documentation (README, API docs, architecture diagrams)
+- [x] Update and maintain technical documentation (README, API docs, architecture diagrams)
 - [ ] Write user guides and onboarding docs
 - [ ] Document all environment variables and configuration options
 
 ---
 
 **Ongoing:**
-- [ ] Track progress, update this TODO list as tasks are completed or requirements change
+- [x] Track progress, update this TODO list as tasks are completed or requirements change
 - [ ] Prioritize critical path items for 9-day launch
 - [ ] Log blockers, bugs, and feature requests as issues in GitHub
