@@ -3,7 +3,7 @@
 ## 1. Project Setup & Infrastructure
 - [x] Finalize `.env` and `.gitignore` files
 - [x] Set up local development environment (Python, Node.js, Docker, PostgreSQL, Redis)
-- [ ] Configure Docker Compose for all services (backend, frontend, db, redis)
+- [x] Configure Docker Compose for all services (backend, frontend, db, redis)
 - [x] Set up initial database using provided schema and run migrations
 - [x] Connect local repo to GitHub ([repo link](https://github.com/tony-42069/litigation-simulator.git))
 - [ ] Set up CI/CD pipeline (optional, for later automation)
@@ -23,7 +23,7 @@
 ## 4. Judge Analysis System
 - [~] Implement judge profile analysis (writing style, topic modeling, ruling patterns)  <!-- Scaffolded, pending Spacy -->
 - [~] Build and train ML models for judge analytics  <!-- Scaffolded, pending Spacy -->
-- [ ] Store analysis results in JudgeAnalytics and JudgePatterns tables
+- [x] Store analysis results in JudgeAnalytics and JudgePatterns tables
 - [ ] Expose judge analytics via API endpoints
 - [ ] Integrate with frontend for judge search and profile display
 
@@ -55,9 +55,9 @@
 - [ ] Implement error handling and loading states
 
 ## 8. User Management & Authentication
-- [ ] Implement OAuth2/JWT authentication in backend
-- [ ] Create user registration, login, and profile endpoints
-- [ ] Add role-based access control (admin, user)
+- [x] Implement OAuth2/JWT authentication in backend
+- [x] Create user registration, login, and profile endpoints
+- [x] Add role-based access control (admin, user)
 - [ ] Integrate authentication in frontend
 
 ## 9. Admin & Training Tools
@@ -66,7 +66,7 @@
 - [ ] Create admin UI (optional) for monitoring and management
 
 ## 10. Deployment & DevOps
-- [ ] Write and test deployment scripts for Docker Compose (dev/prod)
+- [x] Write and test deployment scripts for Docker Compose (dev/prod)
 - [ ] Prepare Kubernetes manifests for cloud deployment
 - [ ] Set up AWS resources (ECR, ECS, RDS, ElastiCache, ALB) if using AWS
 - [ ] Configure Nginx for HTTPS and reverse proxy
