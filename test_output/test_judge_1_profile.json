@@ -1,0 +1,93 @@
+{
+  "judge_id": "test_judge_1",
+  "statistics": {
+    "opinion_count": 5,
+    "avg_length": 556.6,
+    "date_range": {
+      "start": "2024-01-15",
+      "end": "2024-03-05"
+    }
+  },
+  "writing_style": {
+    "sentence_complexity": {
+      "avg_length": 110.52,
+      "max_length": 191,
+      "min_length": 8,
+      "std_dev": 38.34070421888466
+    },
+    "word_complexity": {
+      "avg_length": 5.415143603133159
+    },
+    "readability": {
+      "flesch_score": 38.578150391644925,
+      "interpretation": "Difficult"
+    },
+    "formality": {
+      "score": 0.6768929503916449,
+      "level": "Moderate"
+    }
+  },
+  "topics": {
+    "distribution": {},
+    "keywords": {}
+  },
+  "ruling_patterns": {
+    "overall": {
+      "plaintiff_favorable_rate": 0.8,
+      "defendant_favorable_rate": 0.2,
+      "outcome_distribution": {
+        "defendant_win": 0.2,
+        "plaintiff_win": 0.2,
+        "affirmed": 0.2,
+        "granted": 0.4
+      }
+    },
+    "by_case_type": {
+      "civil": {
+        "count": 1,
+        "outcomes": {
+          "defendant_win": 1
+        },
+        "outcome_percentages": {
+          "defendant_win": 1.0
+        }
+      },
+      "copyright": {
+        "count": 1,
+        "outcomes": {
+          "plaintiff_win": 1
+        },
+        "outcome_percentages": {
+          "plaintiff_win": 1.0
+        }
+      },
+      "appellate": {
+        "count": 1,
+        "outcomes": {
+          "affirmed": 1
+        },
+        "outcome_percentages": {
+          "affirmed": 1.0
+        }
+      },
+      "criminal": {
+        "count": 1,
+        "outcomes": {
+          "granted": 1
+        },
+        "outcome_percentages": {
+          "granted": 1.0
+        }
+      },
+      "class_action": {
+        "count": 1,
+        "outcomes": {
+          "granted": 1
+        },
+        "outcome_percentages": {
+          "granted": 1.0
+        }
+      }
+    }
+  }
+}

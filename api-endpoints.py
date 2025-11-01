@@ -17,6 +17,8 @@ import asyncio
 from datetime import datetime, timedelta
 import logging
 import uuid
+import asyncpg
+from database import get_db
 
 from judge_analysis import JudgeProfiler
 from case_prediction import CaseOutcomePredictor
@@ -37,10 +39,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add CORS middleware
+# Configure CORS
+origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict to your frontend domain
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -152,6 +155,29 @@ class SimulationSummary(BaseModel):
     strengths: List[str]
     areas_for_improvement: List[str]
     overall_feedback: str
+
+class Judge(BaseModel):
+    id: Optional[int] = None
+    name: str
+    court: Optional[str] = None
+    position: Optional[str] = None
+    created_at: Optional[datetime] = None
+
+class JudgeAnalytics(BaseModel):
+    judge_id: int
+    writing_style: dict
+    ruling_patterns: dict
+    questioning_patterns: Optional[dict] = None
+    topic_preferences: Optional[dict] = None
+
+class CasePrediction(BaseModel):
+    case_id: Optional[int] = None
+    judge_id: int
+    case_facts: str
+    arguments: List[str]
+    prediction: dict
+    confidence: float
+    factors: List[dict]
 
 # Authentication functions
 def get_user(db, username: str):
@@ -643,13 +669,24 @@ async def train_case_models(
 
 # Health check endpoint
 @app.get("/health")
-async def health_check():
+async def health_check(db = Depends(get_db)):
     """API health check endpoint"""
-    return {
-        "status": "healthy",
-        "version": "1.0.0",
-        "timestamp": datetime.now().isoformat()
-    }
+    try:
+        # Test database connection
+        query = "SELECT 1"
+        result = await db.fetchval(query)
+        
+        if result == 1:
+            return {
+                "status": "healthy",
+                "database": "connected",
+                "timestamp": datetime.utcnow()
+            }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database connection error: {str(e)}"
+        )
 
 # Utility functions
 def verify_password(plain_password, hashed_password):

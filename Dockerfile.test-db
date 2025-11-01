@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements-minimal.txt ./
+RUN pip install --no-cache-dir -r requirements-minimal.txt
+
+COPY test_db_connection.py ./
+
+CMD ["uvicorn", "test_db_connection:app", "--host", "0.0.0.0", "--port", "8000"] 

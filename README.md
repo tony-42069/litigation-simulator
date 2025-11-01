@@ -135,3 +135,43 @@ MIT License
 ## Contact
 
 For questions, support, or partnership inquiries, please open an issue or contact the maintainer.
+
+# Database Connection Tester
+
+A simple FastAPI application to test database connectivity.
+
+## Setup
+
+1. Clone this repository
+2. Install dependencies:
+   ```
+   pip install fastapi sqlalchemy uvicorn python-dotenv
+   ```
+3. Create a `.env` file based on the `.env.example` template:
+   ```
+   cp .env.example .env
+   ```
+4. Edit the `.env` file with your actual database connection string
+
+## Usage
+
+Run the application:
+```
+python test_db_connection.py
+```
+
+Or with uvicorn directly:
+```
+uvicorn test_db_connection:app --host 0.0.0.0 --port 8000
+```
+
+## API Endpoints
+
+- `GET /`: Returns a simple message confirming the service is running
+- `GET /test-connection`: Tests the database connection and returns the result
+
+## Environment Variables
+
+- `DATABASE_URL`: Connection string for your database (required)
+- `PORT`: Server port (default: 8000)
+- `HOST`: Server host address (default: 0.0.0.0)
